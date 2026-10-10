@@ -119,7 +119,7 @@ Qua việc tìm hiểu và làm việc với mã nguồn dự án, em rút ra r�
 - Mỗi thay đổi cần được kiểm chứng trước khi tích hợp.
 - Git diff và kiểm thử là những công cụ quan trọng giúp em kiểm soát kết quả của AI.
 
-# III. Ý 2 – KỸ NĂNG KIỂM SOÁT MÃ NGUỒN (5 ĐIỂM)
+# III. Ý 2 – KỸ NĂNG KIỂM SOÁT MÃ NGUỒN
 
 ## 3.1. Ý 2a – Kiểm soát tính năng và khả năng chỉnh sửa code
 
@@ -352,7 +352,7 @@ Em đề xuất các tiêu chí:
 
 Theo em, một người viết được nhiều code chưa chắc đã làm việc hiệu quả. Người làm việc hiệu quả phải tạo ra kết quả đáp ứng yêu cầu, có chất lượng và có thể giải thích, duy trì hoặc sửa đổi sản phẩm của mình.
 
-# IV. Ý 3 – KẾT HỢP CÔNG CỤ KIỂM THỬ TÍNH NĂNG (2 ĐIỂM)
+# IV. Ý 3 – KẾT HỢP CÔNG CỤ KIỂM THỬ TÍNH NĂNG
 
 ## 4.1. Nhận thức của em về kiểm thử
 

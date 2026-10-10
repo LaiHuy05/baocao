@@ -1,0 +1,472 @@
+# BÁO CÁO CÁ NHÂN
+**Họ và tên:lại văn Huy
+**Tên dự án:** FourSmart – Website bán hàng  
+**Ngôn ngữ lập trình:** PHP, SQL, HTML, CSS, JavaScript  
+**Repository:** https://github.com/LaiHuy05/FourSmart-new  
+**Nhánh thực hiện:** `feature/account-comment`
+
+---
+
+# I. MỤC TIÊU VÀ ĐỊNH HƯỚNG BÁO CÁO
+
+Thông qua quá trình thực hiện bài tập lớn FourSmart, em nhận thấy mục tiêu quan trọng không chỉ là hoàn thiện một sản phẩm phần mềm mà còn là khả năng tự xây dựng, hiểu, kiểm soát và phát triển hệ thống với sự hỗ trợ của các công cụ hiện đại.
+
+Sau khi tiếp thu những nhận xét của giảng viên, em tập trung báo cáo ba nội dung chính:
+
+1. Khả năng xây dựng hệ thống với sự hỗ trợ của AI Agent.
+2. Kỹ năng kiểm soát mã nguồn, vận dụng skill và sử dụng Git để theo dõi, đánh giá quá trình phát triển.
+3. Khả năng kết hợp các công cụ kiểm thử nhằm kiểm tra và nâng cao chất lượng phần mềm.
+
+Trong báo cáo này, em sử dụng các đoạn mã nguồn thực tế thuộc dự án FourSmart để minh họa cho kiến thức đã tìm hiểu. Em tập trung vào việc giải thích bản thân hiểu và có thể vận dụng các công cụ như thế nào, thay vì chỉ liệt kê những chức năng đã thực hiện.
+
+# II. Ý 1 – XÂY DỰNG HỆ THỐNG VỚI SỰ HỖ TRỢ CỦA AI AGENT
+
+## 2.1. Nhận thức của em về AI Agent
+
+Theo hiểu biết của em, AI Agent là công cụ có khả năng hỗ trợ lập trình viên thực hiện các công việc như phân tích yêu cầu, đọc mã nguồn, đề xuất giải pháp, sinh code, phát hiện lỗi và hỗ trợ kiểm thử.
+
+Điểm khác biệt giữa AI Agent và việc sử dụng AI để hỏi đáp thông thường là Agent có thể được tích hợp với môi trường lập trình, tiếp cận các file trong dự án và thực hiện một chuỗi công việc theo yêu cầu, tùy theo công cụ và quyền được cấp.
+
+Tuy nhiên, AI Agent không thể thay thế hoàn toàn vai trò của lập trình viên. Mã nguồn do AI đề xuất vẫn có thể gặp những vấn đề như:
+
+- Không phù hợp với kiến trúc dự án.
+- Sử dụng sai tên bảng hoặc cột trong cơ sở dữ liệu.
+- Chưa xử lý đầy đủ các trường hợp ngoại lệ.
+- Chứa lỗi bảo mật hoặc những thay đổi ngoài phạm vi yêu cầu.
+- Làm ảnh hưởng đến các chức năng đã hoạt động trước đó.
+
+Vì vậy, em cho rằng kỹ năng quan trọng nhất khi sử dụng AI là biết đưa ra yêu cầu chính xác và có khả năng kiểm tra, đánh giá kết quả mà AI tạo ra.
+
+## 2.2. Quy trình sử dụng AI Agent trong phát triển phần mềm
+
+Em xác định một quy trình làm việc gồm sáu bước.
+
+**Bước 1: Phân tích yêu cầu**
+
+Trước khi sử dụng AI, em cần xác định chức năng cần thực hiện, dữ liệu đầu vào, kết quả mong muốn và các ràng buộc nghiệp vụ.
+
+**Bước 2: Cung cấp ngữ cảnh dự án**
+
+Em cung cấp cho AI những thông tin như ngôn ngữ PHP, kiến trúc MVC, các file cần xử lý, cấu trúc bảng dữ liệu và các quy tắc cần tuân thủ.
+
+**Bước 3: Đưa ra yêu cầu cụ thể**
+
+Thay vì yêu cầu chung chung như "viết chức năng đăng ký", em mô tả rõ điều kiện của chức năng, vị trí cần sửa và phạm vi thay đổi cho phép.
+
+**Bước 4: Phân tích mã nguồn được đề xuất**
+
+Em kiểm tra xem code có phù hợp với hệ thống hiện tại hay không, đặc biệt là các câu truy vấn SQL, xử lý session, xác thực người dùng và kiểm tra dữ liệu đầu vào.
+
+**Bước 5: Chạy thử và kiểm tra**
+
+Em thực hiện kiểm tra cú pháp, thử những trường hợp hợp lệ và không hợp lệ, đồng thời quan sát thông báo lỗi để xác định vấn đề.
+
+**Bước 6: Theo dõi thay đổi**
+
+Em sử dụng Git diff để xem những đoạn mã được bổ sung hoặc chỉnh sửa, sau đó mới quyết định commit lên GitHub.
+
+## 2.3. Ví dụ áp dụng trên dự án FourSmart
+
+Em lựa chọn chức năng đăng ký tài khoản làm ví dụ vì đây là chức năng có đầy đủ các bước từ nhận dữ liệu, kiểm tra hợp lệ cho đến thao tác với cơ sở dữ liệu.
+
+Các file liên quan gồm:
+
+- `mvc/controller/client/auth_controller.php`
+- `mvc/model/AccountModel.php`
+- `mvc/view/client/login/register.php`
+
+Trong mã nguồn hiện tại, chức năng đăng ký thực hiện các kiểm tra như:
+
+- Các trường bắt buộc không được để trống.
+- Mật khẩu có tối thiểu 6 ký tự.
+- Email phải đúng định dạng.
+- Tên đăng nhập không được trùng.
+- Email không được trùng.
+
+Khi người dùng cung cấp thông tin hợp lệ, Controller gọi phương thức `AccountModel::create()` để lưu tài khoản vào cơ sở dữ liệu.
+
+Tại Model, mật khẩu được mã hóa bằng `password_hash()` trước khi lưu.
+
+### Tình huống: Sử dụng AI để hỗ trợ thay đổi điều kiện mật khẩu
+
+Giả sử giảng viên yêu cầu mật khẩu phải chứa ký tự `@`.
+
+Em có thể sử dụng prompt:
+
+> Hãy phân tích chức năng đăng ký trong file `mvc/controller/client/auth_controller.php` của dự án PHP theo mô hình MVC. Bổ sung yêu cầu mật khẩu phải có ít nhất 6 ký tự và bắt buộc chứa ký tự @. Không thay đổi cấu trúc MVC, tên bảng hoặc tên cột hiện tại. Giải thích vị trí chỉnh sửa và đề xuất các trường hợp kiểm thử.
+
+Sau khi xem xét, phần kiểm tra có thể bổ sung như sau:
+
+```php
+elseif (strlen($password) < 6) {
+    $error = 'Mật khẩu phải có ít nhất 6 ký tự';
+} elseif (!str_contains($password, '@')) {
+    $error = 'Mật khẩu phải chứa ký tự @';
+}
+```
+
+Đây là ví dụ cách xử lý trên PHP 8 trở lên. Để bảo đảm thay đổi đúng yêu cầu, em cần kiểm thử lại những trường hợp mật khẩu thiếu ký tự `@`, mật khẩu quá ngắn và mật khẩu hợp lệ.
+
+Qua ví dụ này, em hiểu rằng sử dụng AI hiệu quả không chỉ là nhận mã nguồn mà còn phải biết mã nguồn đó cần được đặt ở đâu, tại sao cần sửa và sửa xong sẽ ảnh hưởng đến điều gì.
+
+## 2.4. Bài học về việc kiểm soát AI
+
+Qua việc tìm hiểu và làm việc với mã nguồn dự án, em rút ra rằng:
+
+- AI giúp tiết kiệm thời gian tìm hiểu và đề xuất giải pháp.
+- Yêu cầu càng rõ ràng thì kết quả AI đề xuất càng dễ kiểm tra.
+- Em cần hiểu được logic thay vì sao chép nguyên mã nguồn.
+- Mỗi thay đổi cần được kiểm chứng trước khi tích hợp.
+- Git diff và kiểm thử là những công cụ quan trọng giúp em kiểm soát kết quả của AI.
+
+# III. Ý 2 – KỸ NĂNG KIỂM SOÁT MÃ NGUỒN (5 ĐIỂM)
+
+## 3.1. Ý 2a – Kiểm soát tính năng và khả năng chỉnh sửa code
+
+### 3.1.1. Hiểu kiến trúc MVC
+
+Dự án FourSmart được xây dựng theo mô hình MVC, giúp tách biệt phần xử lý dữ liệu, điều khiển nghiệp vụ và hiển thị giao diện.
+
+Theo cách hiểu của em:
+
+**Model** đảm nhiệm tương tác với cơ sở dữ liệu, thực hiện các truy vấn lấy, thêm, cập nhật hoặc xóa dữ liệu.
+
+**View** chịu trách nhiệm hiển thị giao diện và thông tin cho người dùng.
+
+**Controller** nhận yêu cầu từ người dùng, kiểm tra dữ liệu và gọi các phương thức cần thiết của Model.
+
+Việc tổ chức theo MVC giúp em xác định đúng vị trí cần chỉnh sửa khi có yêu cầu phát sinh.
+
+### 3.1.2. Phân tích chức năng đăng nhập
+
+File: `mvc/controller/client/auth_controller.php`
+
+Phương thức xử lý: `login()`
+
+Khi người dùng đăng nhập, hệ thống thực hiện:
+
+1. Nhận tên đăng nhập và mật khẩu.
+2. Kiểm tra CSRF token.
+3. Kiểm tra dữ liệu đầu vào.
+4. Gọi `AccountModel::findByUsername()` tìm tài khoản.
+5. Gọi `AccountModel::verifyPassword()` xác thực mật khẩu.
+6. Tạo lại session ID sau khi đăng nhập thành công.
+7. Lưu thông tin tài khoản và quyền người dùng vào session.
+8. Chuyển hướng đến trang phù hợp.
+
+Trong quá trình phân tích, em hiểu được vai trò của một số phương thức:
+
+- `password_hash()`: Mã hóa mật khẩu để lưu trữ an toàn hơn.
+- `password_verify()`: Kiểm tra mật khẩu với giá trị đã mã hóa.
+- `session_regenerate_id(true)`: Giảm nguy cơ tấn công cố định phiên.
+- `$_SESSION`: Lưu trạng thái đăng nhập và thông tin xác thực cần thiết.
+
+### 3.1.3. Kiểm soát nghiệp vụ xóa tài khoản
+
+File: `mvc/controller/admin/account_controller.php`
+
+Phương thức: `delete()`
+
+Em tìm hiểu được rằng hệ thống hiện có các điều kiện bảo vệ thao tác xóa:
+
+- Chỉ tiếp nhận yêu cầu POST.
+- Kiểm tra CSRF token.
+- Không cho phép quản trị viên tự xóa tài khoản đang đăng nhập.
+- Không cho phép xóa tài khoản đang có dữ liệu liên quan đến giỏ hàng, đơn hàng hoặc bình luận.
+
+Trong `AccountModel.php`, phương thức `hasRelatedData()` kiểm tra các dữ liệu liên quan trước khi thực hiện xóa.
+
+Ví dụ này giúp em hiểu rằng lập trình không chỉ là thực hiện thao tác theo yêu cầu mà còn phải bảo vệ tính toàn vẹn của dữ liệu.
+
+### 3.1.4. Quy trình xử lý khi giảng viên yêu cầu sửa code
+
+Nếu giảng viên đưa ra yêu cầu mới, em thực hiện theo quy trình:
+
+1. Xác định chức năng và vị trí xử lý.
+2. Đọc Controller để hiểu luồng nghiệp vụ.
+3. Kiểm tra Model và các thao tác dữ liệu liên quan.
+4. Xác định điều kiện cần thay đổi.
+5. Chỉnh sửa và kiểm tra cú pháp.
+6. Chạy thử chức năng với nhiều loại dữ liệu.
+7. Dùng Git diff xem chính xác nội dung đã sửa.
+8. Commit thay đổi có mô tả rõ ràng.
+
+Theo em, đây là cách thể hiện khả năng kiểm soát mã nguồn thực sự, thay vì chỉ ghi nhớ tên các file.
+
+## 3.2. Ý 2b – Kỹ năng sử dụng skill
+
+### 3.2.1. Skill là gì?
+
+Theo hiểu biết của em, skill là bộ hướng dẫn hoặc quy trình được tổ chức để AI Agent thực hiện một nhóm công việc chuyên biệt.
+
+Một skill có thể mô tả mục tiêu, cách tiếp cận, những bước cần làm, quy tắc cần tuân thủ và cách kiểm tra kết quả.
+
+Skill giúp việc sử dụng AI có tính nhất quán, giảm việc phải viết lại những yêu cầu giống nhau.
+
+### 3.2.2. Phân biệt prompt thông thường và skill
+
+Ví dụ, một prompt thông thường có thể là:
+
+> Hãy cho em biết chức năng đăng nhập nằm trong file nào.
+
+Trong khi đó, một skill chuyên phân tích mã nguồn có thể định nghĩa quy trình:
+
+1. Tìm điểm bắt đầu của chức năng.
+2. Xác định Controller xử lý.
+3. Tìm Model được gọi.
+4. Xác định bảng dữ liệu được sử dụng.
+5. Phân tích điều kiện kiểm tra đầu vào.
+6. Xác định rủi ro và chức năng có thể bị ảnh hưởng.
+7. Đề xuất trường hợp kiểm thử.
+
+Theo em, skill có giá trị ở khả năng chuẩn hóa và tái sử dụng quy trình.
+
+### 3.2.3. Tình huống vận dụng skill vào dự án
+
+Em lựa chọn module tài khoản để xây dựng tình huống phân tích sự phụ thuộc giữa các thành phần.
+
+Mối liên hệ cơ bản:
+
+`Giao diện đăng nhập → ClientAuthController → AccountModel → Database`
+
+Khi người dùng nhập thông tin đăng nhập, Controller tiếp nhận yêu cầu và gọi Model. Model thực hiện truy vấn tài khoản, sau đó Controller xác minh dữ liệu và xử lý phiên đăng nhập.
+
+Với một công cụ hỗ trợ biểu diễn quan hệ mã nguồn như Graphify, em có thể nghiên cứu cách trực quan hóa các thành phần và lời gọi liên quan.
+
+Ví dụ, khi thay đổi phương thức `verifyPassword()`, em cần xác định:
+
+- Phương thức nào đang gọi nó?
+- Chức năng đăng nhập có bị ảnh hưởng không?
+- Dữ liệu mật khẩu cũ có được xử lý đúng không?
+- Cần kiểm thử lại những trường hợp nào?
+
+Việc phân tích các quan hệ trên giúp hạn chế tình trạng sửa một chức năng nhưng vô tình làm lỗi chức năng khác.
+
+**Lưu ý về minh chứng:** Repository hiện chưa thể hiện bằng chứng chạy Graphify hoặc skill tương đương. Em cần thực hành và bổ sung ảnh chụp hoặc kết quả thực tế trước khi khẳng định đã vận dụng thành công.
+
+## 3.3. Ý 2c – Sử dụng Git log, Git diff và đánh giá hiệu quả lập trình
+
+### 3.3.1. Tìm hiểu Git log
+
+Git log là công cụ cho phép em xem lịch sử các commit trong repository.
+
+Ví dụ:
+
+```bash
+git log --oneline
+```
+
+Xem lịch sử commit dưới dạng sơ đồ:
+
+```bash
+git log --oneline --graph --all --decorate
+```
+
+Xem lịch sử thay đổi một file:
+
+```bash
+git log --oneline -- mvc/model/AccountModel.php
+```
+
+Từ kết quả, em có thể theo dõi ai thực hiện thay đổi, thời gian cập nhật và nội dung thay đổi được mô tả.
+
+### 3.3.2. Tìm hiểu Git diff
+
+Git diff được dùng để so sánh sự khác nhau giữa các trạng thái hoặc phiên bản mã nguồn.
+
+Ví dụ:
+
+```bash
+git diff
+```
+
+Xem các thay đổi chưa staging.
+
+```bash
+git diff --cached
+```
+
+Xem các thay đổi đã đưa vào staging.
+
+```bash
+git diff main...feature/account-comment
+```
+
+Xem những thay đổi của nhánh tính năng so với điểm phân nhánh chung với nhánh main.
+
+Trong kết quả Git diff:
+
+- Dòng có dấu `+` là dòng được thêm.
+- Dòng có dấu `-` là dòng bị xóa.
+- Các dòng còn lại cung cấp ngữ cảnh.
+
+Nhờ Git diff, em có thể kiểm tra liệu một thay đổi có đúng yêu cầu và đúng phạm vi hay không.
+
+### 3.3.3. Phân tích một commit thực tế của em
+
+Trong repository, commit:
+
+`76b83b26a – fix: bảo vệ xóa tài khoản có dữ liệu liên quan`
+
+thể hiện việc cải thiện nghiệp vụ xóa tài khoản.
+
+Em có thể sử dụng:
+
+```bash
+git show 76b83b26a
+```
+
+để kiểm tra mã nguồn thay đổi.
+
+Trong phiên bản được kiểm tra, phương thức `hasRelatedData()` của AccountModel thực hiện truy vấn kiểm tra dữ liệu giỏ hàng, đơn hàng và bình luận liên quan đến tài khoản.
+
+Nếu tài khoản có dữ liệu liên quan, Controller từ chối thao tác xóa với mã HTTP 409.
+
+Qua đó, em hiểu rằng khi đánh giá một commit, cần xem xét sự thay đổi có giải quyết đúng vấn đề hay không, chứ không chỉ đọc tiêu đề commit.
+
+### 3.3.4. Đánh giá hiệu quả thành viên với vai trò trưởng nhóm
+
+Theo quan điểm của em, đánh giá hiệu quả của một thành viên không nên chỉ dựa vào số lượng commit hoặc số dòng code.
+
+Em đề xuất các tiêu chí:
+
+| Tiêu chí | Trọng số |
+|---|---:|
+| Mức độ đáp ứng yêu cầu | 25% |
+| Chất lượng và tính dễ bảo trì của code | 25% |
+| Khả năng hiểu, giải thích và sửa code | 20% |
+| Kiểm thử và xử lý lỗi | 20% |
+| Trách nhiệm, phối hợp và minh bạch lịch sử Git | 10% |
+
+Để đánh giá, em kết hợp các yếu tố:
+
+**Git log:** Theo dõi quá trình thực hiện công việc.
+
+**Git diff:** Kiểm tra những thay đổi thực tế trong mã nguồn.
+
+**Pull Request:** Xem quá trình đề xuất, trao đổi, chỉnh sửa và tích hợp code.
+
+**Kết quả kiểm thử:** Xác định chức năng có đáp ứng yêu cầu và xử lý được trường hợp ngoại lệ hay không.
+
+**Khả năng giải thích mã nguồn:** Đánh giá mức độ hiểu và tự chủ của người thực hiện.
+
+Theo em, một người viết được nhiều code chưa chắc đã làm việc hiệu quả. Người làm việc hiệu quả phải tạo ra kết quả đáp ứng yêu cầu, có chất lượng và có thể giải thích, duy trì hoặc sửa đổi sản phẩm của mình.
+
+# IV. Ý 3 – KẾT HỢP CÔNG CỤ KIỂM THỬ TÍNH NĂNG (2 ĐIỂM)
+
+## 4.1. Nhận thức của em về kiểm thử
+
+Theo em, kiểm thử phần mềm là quá trình đánh giá chương trình bằng các trường hợp cụ thể để xác định hệ thống có hoạt động đúng như yêu cầu hay không.
+
+Một chức năng hoạt động đúng với một bộ dữ liệu chưa đủ chứng minh rằng chức năng đó không có lỗi.
+
+Ví dụ, khi kiểm thử đăng ký tài khoản, em không chỉ thử tạo tài khoản thành công mà còn cần kiểm tra những trường hợp như thông tin bị thiếu, email không hợp lệ, tên đăng nhập trùng hoặc mật khẩu quá ngắn.
+
+## 4.2. Các công cụ kiểm thử em tìm hiểu
+
+### PHP CLI
+
+Em có thể sử dụng PHP CLI để kiểm tra lỗi cú pháp của mã nguồn.
+
+Ví dụ:
+
+```bash
+php -l mvc/controller/client/auth_controller.php
+```
+
+Lệnh này giúp phát hiện lỗi cú pháp, nhưng không xác định được logic nghiệp vụ có đúng hay không.
+
+### PHPUnit
+
+PHPUnit là framework hỗ trợ viết và chạy kiểm thử tự động trong PHP.
+
+Em có thể dùng PHPUnit để xây dựng các trường hợp kiểm tra dữ liệu, phương thức xử lý và so sánh kết quả thực tế với kết quả mong đợi.
+
+### Postman
+
+Postman hỗ trợ gửi HTTP request tới hệ thống và kiểm tra response.
+
+Ví dụ, em có thể gửi các request với dữ liệu hợp lệ hoặc không hợp lệ để kiểm tra mã trạng thái và phản hồi của Controller.
+
+Khi kiểm tra các chức năng sử dụng session và CSRF, em cần chuẩn bị cookie và token phù hợp với từng tình huống.
+
+### Trình duyệt và Developer Tools
+
+Em sử dụng trình duyệt để kiểm tra luồng hoạt động và có thể sử dụng Developer Tools để quan sát dữ liệu gửi từ biểu mẫu, Network request và phản hồi của server.
+
+### Git diff
+
+Em sử dụng Git diff để xác định các đoạn code vừa được chỉnh sửa, từ đó lựa chọn những chức năng cần kiểm thử lại.
+
+## 4.3. Thiết kế test case trên module tài khoản
+
+Dựa vào mã nguồn hiện tại, em xác định các trường hợp cần kiểm thử:
+
+| Mã test | Trường hợp                          | Kết quả mong đợi |
+|---------|------------                         |------------------|
+| TC01    | Đăng ký thiếu thông tin             | Thông báo lỗi    |
+| TC02    | Mật khẩu dưới 6 ký tự               | Từ chối đăng ký  |
+| TC03    | Email không hợp lệ                  | Thông báo lỗi email |
+| TC04    | Tên đăng nhập trùng                 | Không tạo tài khoản |
+| TC05    | Đăng nhập sai mật khẩu              | Thông báo đăng nhập thất bại |
+| TC06    | Đăng nhập đúng                      | Tạo session, chuyển trang |
+| TC07    | Chưa đăng nhập nhưng thêm bình luận | Chuyển đến trang đăng nhập |
+| TC08    | Bình luận có nội dung rỗng          | Từ chối xử lý |
+| TC09    |Admin tự xóa tài khoản               | HTTP 403 |
+| TC10    | Xóa tài khoản có dữ liệu liên quan  | HTTP 409 |
+
+Đây là danh sách test case em xây dựng từ việc phân tích logic hiện tại. Kết quả pass/fail cần được xác nhận bằng quá trình chạy thử thực tế.
+
+## 4.4. Quy trình kết hợp các công cụ kiểm thử
+
+Em đề xuất quy trình:
+
+**Bước 1:** Sử dụng Git diff để xác định phạm vi code vừa thay đổi.
+
+**Bước 2:** Sử dụng PHP CLI kiểm tra cú pháp.
+
+**Bước 3:** Chạy các trường hợp kiểm thử nghiệp vụ, ưu tiên kiểm thử tự động với PHPUnit khi phù hợp.
+
+**Bước 4:** Sử dụng Postman hoặc công cụ HTTP để kiểm tra request, response và những trường hợp lỗi.
+
+**Bước 5:** Thực hiện kiểm thử trên giao diện bằng trình duyệt.
+
+**Bước 6:** Ghi nhận kết quả, sửa lỗi và chạy lại các bài kiểm thử có liên quan.
+
+Qua quy trình này, em hiểu rằng việc kết hợp nhiều công cụ giúp kiểm tra phần mềm ở các mức độ khác nhau.
+
+## 4.5. Đánh giá tình trạng kiểm thử hiện tại
+
+Sau khi xem xét repository, file `mvc/tests/account_model_test.php` hiện mới gọi phương thức lấy danh sách tài khoản và in dữ liệu.
+
+Đây là một bước kiểm tra thủ công, chưa phải bộ kiểm thử tự động đầy đủ có assertion và thông báo pass/fail.
+
+Vì vậy, em xác định cần tiếp tục hoàn thiện hệ thống kiểm thử, đặc biệt là kiểm thử những điều kiện đầu vào, tình huống lỗi và các trường hợp liên quan đến xác thực, phân quyền.
+
+# V. TỰ ĐÁNH GIÁ VÀ BÀI HỌC RÚT RA
+
+Qua quá trình làm việc với FourSmart, em nhận thấy bản thân cần hình thành tư duy lập trình có kiểm soát, thay vì chỉ tập trung làm cho chức năng hoạt động.
+
+**Về AI Agent:** Em hiểu được cách đặt yêu cầu có ngữ cảnh, phân tích kết quả và kiểm tra mã nguồn được đề xuất. Em cần bổ sung minh chứng các phiên thực hành cụ thể.
+
+**Về kiểm soát mã nguồn:** Em có thể xác định và phân tích luồng xử lý của những chức năng liên quan đến tài khoản và bình luận. Em hiểu được vai trò của Controller, Model, session, xác thực mật khẩu và kiểm tra quyền truy cập.
+
+**Về kỹ năng sử dụng skill:** Em đã tìm hiểu khái niệm, cách tổ chức quy trình và một số tình huống có thể áp dụng. Em cần thực hành trực tiếp để có minh chứng rõ ràng hơn.
+
+**Về Git:** Em hiểu vai trò của Git log, Git diff và Pull Request trong việc theo dõi lịch sử, kiểm tra thay đổi và đánh giá chất lượng công việc.
+
+**Về kiểm thử:** Em có thể xác định test case từ mã nguồn và hiểu mục đích của từng công cụ kiểm thử. Em cần tiếp tục xây dựng các bài kiểm thử tự động và ghi nhận kết quả thực hiện.
+
+Trong vai trò trưởng nhóm, em rút ra rằng việc quản lý nhóm không chỉ là chia công việc mà còn phải biết kiểm tra chất lượng mã nguồn, đánh giá hiệu quả dựa trên bằng chứng và bảo đảm từng thành viên có khả năng hiểu, giải thích những gì mình thực hiện.
+
+# VI. KẾT LUẬN
+
+Thông qua bài tập lớn FourSmart, em hiểu rằng trong thời đại AI hỗ trợ lập trình, điều quan trọng không chỉ là tạo ra một sản phẩm mà còn phải có khả năng kiểm soát quá trình xây dựng sản phẩm đó.
+
+Việc sử dụng AI Agent giúp em tiếp cận những phương án giải quyết vấn đề nhanh hơn, nhưng em vẫn cần chủ động phân tích yêu cầu, hiểu mã nguồn, kiểm tra thay đổi và đánh giá kết quả.
+
+Các công cụ như Git log, Git diff, Pull Request và những công cụ kiểm thử giúp em hình thành phương pháp làm việc có hệ thống, có khả năng theo dõi và kiểm chứng.
+
+Qua báo cáo này, em muốn thể hiện những kiến thức đã tìm hiểu, khả năng phân tích mã nguồn thực tế và định hướng tiếp tục hoàn thiện kỹ năng sử dụng AI, kiểm soát code và kiểm thử phần mềm.
+
+Em nhận thức rằng giá trị quan trọng nhất của bài tập lớn không nằm ở số lượng chức năng đã hoàn thành mà nằm ở những kiến thức và kỹ năng em có thể tự vận dụng khi xây dựng, sửa đổi và phát triển một hệ thống phần mềm.
